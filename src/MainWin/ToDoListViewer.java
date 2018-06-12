@@ -51,6 +51,7 @@ public class ToDoListViewer {
 	private JLabel displayArea;
 	private JLabel timeLabel;
 	private JButton newButton;
+	private boolean flag;
 	
 	public static void main(String[] args) {
 		ToDoListViewer list = new ToDoListViewer();
@@ -58,7 +59,7 @@ public class ToDoListViewer {
 	}
 	
 	public void go() {
-		
+		flag = false;
 		//创建gui
 		frame = new JFrame("ToDoList Viewer");
 		mainPanel = new JPanel();
@@ -94,6 +95,7 @@ public class ToDoListViewer {
 		group.add(functionBox.get(2));
 		group.add(functionBox.get(3));
 		group.add(functionBox.get(4));
+		group.add(functionBox.get(5));
 		
 		centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.Y_AXIS));
 		
@@ -110,6 +112,7 @@ public class ToDoListViewer {
 		
 		centrePanel.add(functionBox.get(0));
 		centrePanel.add(functionBox.get(4));
+		centrePanel.add(functionBox.get(5));
 		centrePanel.add(functionBox.get(1));
 		centrePanel.add(functionBox.get(2));
 		centrePanel.add(functionBox.get(3));
@@ -175,32 +178,10 @@ public class ToDoListViewer {
 	    		new ItemBuilder().go();
 	    		group.clearSelection();
 	    	}else if(functionBox.get(1).isSelected()){
-	    		new DrinkWater().go();
+	    		new DailyWork().go();
 	    		group.clearSelection();
 	    		centrePanel.remove(functionBox.get(1));
-	    		/*
-	    		//清楚中心面板的全部checkbox并重新读取xml和创建新的checkbox
-		    	centrePanel.removeAll();
-		    	getItem();
-		    	checkBoxList.clear();
-		    	for(JCheckBox item:setItem()) {
-		    		checkBoxList.add(item);
-					centrePanel.add(item);
-				}
-		    	
-		    	//添加新的退出检查复选框
-		    	centrePanel.add(exitCheckBox.get(0));
-				centrePanel.add(exitCheckBox.get(1));
-				centrePanel.add(functionBox.get(0));
-				//centrePanel.add(functionBox.get(1));
-				centrePanel.add(functionBox.get(2));
-				centrePanel.add(functionBox.get(3));
-		    	mainPanel.repaint();
-		    	frame.pack();
-	    		//functionBox.get(1).;
-	    		 * 
-	    		 * 
-	    		 */
+	    		flag = true;
 	    	}else if(functionBox.get(2).isSelected()){
 	    		group.clearSelection();
 	    	}else if(functionBox.get(3).isSelected()){
@@ -211,9 +192,13 @@ public class ToDoListViewer {
 	    		group.clearSelection();
 	    		frame.setSize(new Dimension(200,95));
 	    		frame.repaint();
-	    		MyWordViewer viewer = new MyWordViewer();
-	    		viewer.gui();
-	    	}else {
+	    		new MyWordViewer().gui();
+	    	}else if(functionBox.get(5).isSelected()){
+	    		group.clearSelection();
+	    		frame.setSize(new Dimension(200,95));
+	    		frame.repaint();
+	    		new QuizCardTable("./file/DigitalLogic.xml").gui();
+	    	}else{
 	    		
 	    		SAXReader reader = new SAXReader();
 	    		
@@ -274,7 +259,8 @@ public class ToDoListViewer {
 				centrePanel.add(exitCheckBox.get(1));
 				centrePanel.add(functionBox.get(0));
 				centrePanel.add(functionBox.get(4));
-				//centrePanel.add(functionBox.get(1));
+				centrePanel.add(functionBox.get(5));
+				if(flag == false) centrePanel.add(functionBox.get(1));
 				centrePanel.add(functionBox.get(2));
 				centrePanel.add(functionBox.get(3));
 		    	mainPanel.repaint();
@@ -367,10 +353,11 @@ public class ToDoListViewer {
 	private void setFuncitonBox() {
 		
 		functionBox.add(new JRadioButton("<html><font color='blue'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Build_Item</font><html>"));
-		functionBox.add(new JRadioButton("<html><font color='#58ACFA'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drink_Water</font><html>"));
+		functionBox.add(new JRadioButton("<html><font color='#58ACFA'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Daily_Work</font><html>"));
 		functionBox.add(new JRadioButton("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reset<html>"));
 		functionBox.add(new JRadioButton("<html><font color='#AEB404'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zoom_Out</font><html>"));
 		functionBox.add(new JRadioButton("<html><font color='#668B8B'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vocabulary_Table</font><html>"));
+		functionBox.add(new JRadioButton("<html><font color='#8B6914'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Digital_Logic</font><html>"));
 	}
 	
 	private void configTimeArea() {

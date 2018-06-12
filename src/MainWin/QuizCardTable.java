@@ -8,11 +8,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,46 +26,48 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
 public class QuizCardTable {
 	
 	ArrayList<QuizCard> cardData = new ArrayList<QuizCard>();
-	//private final String DEFAULT_XML_URL;
-	private final String DEFAULT_XML_URL = "./file/DigitalLogic.xml";
+	private final String DEFAULT_XML_URL;
 	private JFrame frame;
-	private JLabel indexLabel;
-	private JLabel contentLabel;
-	private JButton newButton;
 	private JTable table;
 	private JScrollPane jp;
 	private Vector<Vector<String>> data;
 	private Vector<String> title;
 	private JTextField indexTextField;
-	private JTextField contentTextField;
+	private JTextArea contentTextArea;
 	private ArrayList<QuizCard> quizCardList;
 	private Iterator<QuizCard> listIterator;
 	private DefaultTableModel model;
 	
-	/**
-	 * 制作不同学科的卡片时传入不同的url来读取不同的卡片
+	
+	 //制作不同学科的卡片时传入不同的url来读取不同的卡片
 	public QuizCardTable(String url) {
 		this.DEFAULT_XML_URL = url;
 	}
-	*/
+	
+	/*
+	 * 
+	 * 测试程序
 	public static void main(String[] args) {
 		QuizCardTable qc = new QuizCardTable();
 		qc.gui();
-	}
+	}*/
 	
 	//创建界面
-	private void gui() {
+	void gui() {
 		frame = new JFrame("QuizCardTable");
 		
 		//菜单栏设计
@@ -103,7 +106,7 @@ public class QuizCardTable {
 		frame.setSize(new Dimension(280, 297));
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setVisible(true);
 	}
 
@@ -154,7 +157,11 @@ public class QuizCardTable {
 	//监听Refresh菜单
 	public class RefreshListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) { 
-			
+			model.getDataVector().clear();
+			readXML();
+			setData();
+			model.setDataVector(data, title);
+			setTableSize();
        }
 	}
 
@@ -195,49 +202,73 @@ public class QuizCardTable {
 	//添加新内容的JFrame，被New菜单调用
 	private void inputFrame() {
 		JFrame inputFrame = new JFrame("Input");
-		JTextField indexField = new JTextField();
-		JTextArea contentArea = new JTextArea();
+		indexTextField = new JTextField();
+		contentTextArea = new JTextArea(10, 14);
+		
 		JPanel bottomPanel = new JPanel();
 		JPanel inputPanel = new JPanel();
 		JButton newButton = new JButton("NEW");
 		
-		contentArea.setLineWrap(true);  //自动换行
-		contentArea.setWrapStyleWord(true);  //换行时不会造成断字
+		contentTextArea.setLineWrap(true);  //自动换行
+		contentTextArea.setWrapStyleWord(true);  //换行时不会造成断字
 		
-		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
 		bottomPanel.setLayout(new BorderLayout());
 		
-		newButton.addActionListener(new InputNewContentListener(indexField, contentArea));
+		indexTextField.setPreferredSize(new Dimension(156, 20));
+		
+		JScrollPane jp = new JScrollPane(contentTextArea);
+		jp.setHorizontalScrollBarPolicy(
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		newButton.addActionListener(new InputNewContentListener());
 		
 		inputPanel.add(new JLabel("——INDEX——"));
-		inputPanel.add(indexField);
+		inputPanel.add(indexTextField);
 		inputPanel.add(new JLabel("——CONTENT——"));
-		inputPanel.add(contentArea);
-		inputPanel.add(newButton);
-		bottomPanel.add(new JLabel("     "), BorderLayout.EAST);
-		bottomPanel.add(new JLabel("     "), BorderLayout.SOUTH);
-		bottomPanel.add(new JLabel("     "), BorderLayout.WEST);
-		bottomPanel.add(new JLabel("     "), BorderLayout.NORTH);
+		inputPanel.add(jp);
 		bottomPanel.add(inputPanel, BorderLayout.CENTER);
+		bottomPanel.add(newButton, BorderLayout.SOUTH);
 		inputFrame.add(bottomPanel);
-		inputFrame.pack();
+		inputFrame.setResizable(false);
+		inputFrame.setSize(new Dimension(200, 340));
+		inputFrame.setLocationRelativeTo(null);
+		//inputFrame.pack();
 		inputFrame.setVisible(true);
 		inputFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 	}
 	
 	//新增内容的NEW按钮的监听方法
 	public class InputNewContentListener implements ActionListener {
-		JTextField indexField;
-		JTextArea contentArea;
-		public InputNewContentListener(JTextField indexField, JTextArea contentArea) {
-			this.indexField = indexField;
-			this.contentArea = contentArea;
-		}
-		
 		public void actionPerformed(ActionEvent ev) { 
-			if((indexField.getText().length() > 1) && (contentArea.getText().length() > 1)) {
-				
-			}else JOptionPane.showMessageDialog(null, "please confirm that the text areas of INDEX and  CENTENT are not empty!", "WARNING", JOptionPane.ERROR_MESSAGE); ;
+			//JOptionPane.showMessageDialog(null, contentText + indexText, "ERROR", JOptionPane.ERROR_MESSAGE);
+			String indexText = indexTextField.getText();
+			String contentText = contentTextArea.getText();
+			if((indexText.length() > 1) && (contentText.length() > 1)) {
+				SAXReader reader = new SAXReader();
+				try {
+					Document document = reader.read(new File(DEFAULT_XML_URL));
+					Element list = document.getRootElement();
+					Element record = list.addElement("record");
+					Element index = record.addElement("index");
+					Element content = record.addElement("content");
+					
+					index.setText(indexText);
+					content.setText(contentText);
+					
+					OutputFormat format = OutputFormat.createPrettyPrint();
+					format.setEncoding("utf-8");
+					XMLWriter xmlWriter = new XMLWriter(
+							new FileOutputStream(DEFAULT_XML_URL),format);
+					xmlWriter.write(document);
+					xmlWriter.close();
+					
+					JOptionPane.showMessageDialog(null, "Done!", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+					indexTextField.setText("");
+					contentTextArea.setText("");
+				}catch(DocumentException | IOException e) {
+					JOptionPane.showMessageDialog(null, "Error input! Please exit and retry.", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+			}else JOptionPane.showMessageDialog(null, "Please confirm if the text areas of INDEX and  CENTENT are empty!", "WARNING", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
