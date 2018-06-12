@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<vcblrlist> 
+  <vcblr> 
+    <word>abandon</word>  
+    <translation id="1">vt. 放弃,丢弃</translation>  
+    <phrase id="2">abandon someone to 沉溺于…</phrase>  
+    <expSts id="3">Some couples abandon to have second child due to the increasing financial burden. 一些夫妻迫于不断加重的经济压力，放弃生育二胎。</expSts> 
+  </vcblr>  
+  <vcblr> 
+    <word>ability</word>  
+    <translation id="1">n. 能力,本领,才能,才干</translation>  
+    <expSts id="3">I'm sure he will do the work to the best of his ability. 我肯定他会尽最大努力做好这件事。</expSts> 
+  </vcblr>  
+  <vcblr> 
+    <word>abnormal</word>  
+    <translation id="1">adj. 反常的,异常的</translation>  
+    <expSts id="3">They thought his behaviour was abnormal. 他们认为他行为反常。</expSts> 
+  </vcblr>  
+  <vcblr> 
+    <word>aboard</word>  
+    <translation id="1">prep. 在（到）船（飞机、车）上,上船（飞机、车）</translation>  
+    <translation id="1">adv. 在（到）船（飞机、车）上,上船（飞机、车）</translation>  
+    <expSts id="3">Welcome aboard! 欢迎乘坐该船（飞机、车）！</expSts> 
+  </vcblr>  
+  <vcblr> 
+    <word>abolish</word>  
+    <translation id="1">vt. （彻底）废除</translation>  
+    <expSts id="3">These superstitious pratices should be abolished as soon as possible. 这些迷信的做法应该尽早废除。</expSts> 
+  </vcblr>  
+  <vcblr> 
+    <word>abortion</word>  
+    <translation id="1">n. 人工流产,堕胎,（计划等）的失败,夭折</translation>  
+    <expSts id="3">She had an abortion. 她做了人工流产。</expSts> 
+  </vcblr>  
+  <vcblr> 
+    <word>abrupt</word>  
+    <translation id="1">adj. 突然的,意外的,（举止、言谈等）唐突的,鲁莽的</translation>  
+    <expSts id="3">There are abrupt weather changes. 天有不测风云。</expSts> 
+  </vcblr>  
+  <vcblr> 
+    <word>absence</word>  
+    <translation id="1">n. 缺席,缺乏</translation>  
+    <phrase id="2">in the absence of 在（人）不在时,在（物）缺乏时</phrase>  
+    <expSts id="3">He took a one-week leave of absence. 他请了一周的假。</expSts> 
+  </vcblr>  
+  <vcblr> 
+    <word>absent</word>  
+    <translation id="1">adj. （from）缺席的,缺乏的,不存在的</translation>  
+    <expSts id="3">Love was totally absent from his childhood. 他在童年时丝毫没有得到关爱。</expSts> 
+  </vcblr>  
+  <vcblr> 
+    <word>absolute</word>  
+    <translation id="1">adj. 十足的</translation>  
+    <expSts id="3">Power tends to corrupt, and absolute power corrupts absolutely. 权力导致腐败，绝对权力绝对导致腐败。</expSts> 
+  </vcblr>  
+  <vcblr>
+    <word>absorb</word>
+    <translation id="1">vt. 吸引,吸引…的注意,同化,理解,掌握</translation>
+    <expSts id="3">You must absorb as much information as possible. 你必须掌握尽可能多的信息。</expSts>
+  </vcblr>
+  <vcblr> 
+    <word>abstract</word>  
+    <translation id="1">adj. 抽象（派）的</translation>  
+    <translation id="1">n. 摘要,抽象派艺术作品</translation>  
+    <translation id="1">vt. 写…的摘要,提取,抽取</translation>  
+    <expSts id="3">A flower is beautiful, but beauty itself is abstract. 花是美的，但美是抽象的。</expSts> 
+  </vcblr>  
+  <vcblr> 
+    <word>abundant</word>  
+    <translation id="1">adj. 丰富的</translation>  
+    <phrase id="2">be abundant in... …丰富,富于…</phrase> 
+  </vcblr> 
+</vcblrlist>

@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: MainWin.ToDoListViewer
+Class-Path: lib/dom4j-2.1.0.jar
+
